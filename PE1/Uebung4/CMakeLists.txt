@@ -1,5 +1,5 @@
-project(Uebung1 C)
+project(Uebung4 C)
 
 set(CMAKE_C_STANDARD 17)
 
-add_executable(Uebung1 demo.c)
+add_executable(Uebung4 demo.c)

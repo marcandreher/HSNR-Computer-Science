@@ -1,0 +1,4 @@
+/PE1/*/cmake-build-debug/
+/PE1/.idea/
+
+*.exe
