@@ -179,10 +179,22 @@ void draw_line(int x1, int y1, int x2, int y2, char c) {
     }
 }
 
-
 /* flood fill an area starting at given position with character c */
 void flood_fill(int x, int y, char c) {
+    if (!in_screen(x,y)) {
+        return;
+    }
 
+    if (screen[x][y] != ' ') {
+        return;
+    }
+
+    draw_pixel(x, y, c);
+
+    flood_fill(x + 1, y, c);
+    flood_fill(x - 1, y, c);
+    flood_fill(x, y + 1, c);
+    flood_fill(x, y - 1, c);
 }
 
 
