@@ -6,6 +6,10 @@ double calc_approximate(double x, int k, double epsilon) {
     double term = 1.0;
     int n = 0;
 
+    if (x >= 10) {
+        return calc_approximate(x / 2, k, epsilon) * (calc_approximate(x / 2, k, epsilon));
+    }
+
     //printf("Folge der Summanden:\n");
     while (fabs(term) >= epsilon) {
         n++;
@@ -13,10 +17,6 @@ double calc_approximate(double x, int k, double epsilon) {
         //printf("%d: %lf\n", (n-1), term);
         term = term * x / n;
         result += term;
-    }
-
-    if (x >= 10) {
-        return calc_approximate(x / 2, k, epsilon) * (calc_approximate(x / 2, k, epsilon));
     }
 
     return result;
@@ -37,9 +37,9 @@ int main(void) {
     scanf("%lf", &epsilon);
 
     double result = calc_approximate(x, n, epsilon);
-    double c_result = exp(result);
+    double c_result = exp(x);
 
     printf("calc_approximate(x = %lf, n, epsilon) = %.20e\n",num, result);
-    printf("exp(x = %lf) = %.20e\n", num,  c_result);
+    printf("(math.h)     exp(x = %lf)             = %.20e\n", num,  c_result);
     return 0;
 }
