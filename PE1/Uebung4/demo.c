@@ -15,9 +15,9 @@ int main(void) {
     int index = 0;
 
     Approximate approximate[10];
-    double threshold = 0.00000001;
 
     do {
+        double threshold = 0.00000001;
         double input;
 
         do {
@@ -80,8 +80,8 @@ bool isValid(double *input) {
 
     if (*input >= -10 && *input <= 10) {
         return true;
-    } else {
-        printf("Diese Zahl liegt nicht im Bereich -10 bis 10\n");
-        return false;
     }
+
+    printf("Diese Zahl liegt nicht im Bereich -10 bis 10\n");
+    return false;
 }
