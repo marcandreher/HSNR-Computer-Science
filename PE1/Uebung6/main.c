@@ -1,5 +1,6 @@
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 /* screen size - adapt to console size */
 #define NUM_COLUMNS 80
@@ -44,33 +45,33 @@ unsigned in_screen(int x, int y) {
 
 /* draw a single point at given position (x,y) and with given character */
 void draw_pixel(int x, int y, char c) {
-    if (in_screen(x, y)) {
-        screen[x][y] = c;
+    if (!in_screen(x,y)) {
+        return;
     }
+
+    screen[x][y] = c;
 }
 
 /* clear a single pixel at position (x,y) */
 void clear_pixel(int x, int y) {
-    if (in_screen(x, y)) {
-        screen[x][y] = ' ';
+    if (!in_screen(x,y)) {
+        return;
     }
+
+    screen[x][y] = ' ';
 }
 
 /* draw a horizontal line (x1,y)-(x2,y) with dashes (-) */
 void draw_horizontal_line(int x1, int x2, int y) {
     for (int i = x1; i < x2; i++) {
-        if (in_screen(i, y)) {
-            screen[i][y] = '-';
-        }
+        draw_pixel(i, y, '-');
     }
 }
 
 /* draw a vertical line (x,y1)-(x,y2) with vertical bars (|) */
 void draw_vertical_line(int x, int y1, int y2) {
     for (int i = y1; i < y2; i++) {
-        if (in_screen(x, i)) {
-            screen[x][i] = '|';
-        }
+        draw_pixel(x, i, '|');
     }
 }
 
@@ -95,48 +96,32 @@ void draw_vertical_arrow(int x, int y1, int y2) {
 void draw_rectangle(int x1, int y1, int x2, int y2) {
     // Draw first line with + at start & end
     for (int i = x1; i < x2; i++) {
-        if (!in_screen(i, y1)) {
-            continue;
-        }
-
         if (i == x1 || i == x2 - 1) {
-            screen[i][y1] = '+';
+            draw_pixel(i, y1, '+');
             continue;
         }
 
-        screen[i][y1] = '-';
+        draw_pixel(i, y1, '-');
     }
 
     // Draw first vertical line
     for (int i = y1 + 1; i < y2; i++) {
-        if (!in_screen(x1, i)) {
-            continue;
-        }
-
-        screen[x1][i] = '|';
+        draw_pixel(x1, i, '|');
     }
 
     // Draw end vertical line
     for (int i = y1 + 1; i < y2; i++) {
-        if (!in_screen(x2 - 1, i)) {
-            continue;
-        }
-
-        screen[x2 - 1][i] = '|';
+        draw_pixel(x2 - 1, i, '|');
     }
 
     // Draw end line
     for (int i = x1; i < x2; i++) {
-        if (!in_screen(i, y2)) {
-            continue;
-        }
-
         if (i == x1 || i == x2 - 1) {
-            screen[i][y2] = '+';
+            draw_pixel(i, y2, '+');
             continue;
         }
 
-        screen[i][y2] = '-';
+        draw_pixel(i, y2, '-');
     }
 }
 
@@ -144,7 +129,7 @@ void draw_rectangle(int x1, int y1, int x2, int y2) {
 void draw_filled_rectangle(int x1, int y1, int x2, int y2, char c) {
     for (int i = x1; i < x2; i++) {
         for (int x = y1; x < y2; x++) {
-            screen[i][x] = c;
+            draw_pixel(i, x, c);
         }
     }
 }
@@ -197,9 +182,7 @@ void flood_fill(int x, int y, char c) {
     flood_fill(x, y - 1, c);
 }
 
-
 /* main program: entry point */
-
 int main(int argc, const char *argv[]) {
 
     initialize_buffer();
